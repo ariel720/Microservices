@@ -1,10 +1,14 @@
 package com.ariel.demo.demo.user;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +35,22 @@ public class UserResource {
 	
 	//Retrieve one User : *add PathVariable
 	@GetMapping("/user/{id}")
-	public User retrieveOne(@PathVariable int id){
+	public EntityModel<User> retrieveOne(@PathVariable int id){
 		User user = service.findOne(id);
 		if(user == null) {
 			throw new UserNotFoundException("Id "+ id +" is not existed");
 		}
 		
-		return user;
+		EntityModel<User> resource = EntityModel.of(user);
+		
+		WebMvcLinkBuilder linkTo = 
+				linkTo(methodOn(this.getClass()).retrieveAll());
+		
+		resource.add(linkTo.withRel("all-users"));
+		
+		//HATEOAS
+		
+		return resource;
 	}
 	
 //=============POST URI
