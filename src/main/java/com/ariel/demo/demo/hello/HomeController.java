@@ -2,6 +2,7 @@ package com.ariel.demo.demo.hello;
 
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
+	@Autowired
 	private MessageSource messageSource;
 	
     @RequestMapping("/")
@@ -39,9 +41,9 @@ public class HomeController {
     }
     
     @GetMapping("/international")
-    public String international(@RequestHeader(name="Accpet-Language", required=false) Locale locale){
-    	return "hello";
-    	//return messageSource.getMessage("morning.message", null, LocaleContextHolder.getLocale());
+    //public String international(@RequestHeader(name="Accpet-Language", required=false) Locale locale){
+    public String international(){
+    	return messageSource.getMessage("morning.message", null, LocaleContextHolder.getLocale());
     }
-    
+    //*once we declare in application.properties, do need seperate been
 }
