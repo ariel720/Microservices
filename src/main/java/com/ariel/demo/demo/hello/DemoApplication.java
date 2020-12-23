@@ -1,4 +1,4 @@
-package com.ariel.demo.demo;
+package com.ariel.demo.demo.hello;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
